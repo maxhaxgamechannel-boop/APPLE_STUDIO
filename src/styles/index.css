@@ -1,0 +1,353 @@
+@import 'tailwindcss';
+
+/* Вариант dark: для точечных переопределений (dark:…) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Дизайн-токены. Утилиты Tailwind ссылаются на CSS-переменные,
+ * поэтому тема переключается простой заменой переменных на <html class="dark">.
+ */
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --color-paper: #ffffff; /* фон страницы */
+  --color-card: #ffffff; /* карточки, панели, поля */
+  --color-ink: #1d1d1f; /* основной текст и тёмные кнопки */
+  --color-ink-2: #424245;
+  --color-mute: #6e6e73;
+  --color-line: #e5e5ea;
+  --color-mist: #f5f5f7;
+  --color-silver: #d2d2d7;
+  --color-accent: #0071e3;
+  --color-accent-2: #0077ed;
+  --color-ok: #1f8f4e;
+  --color-danger: #d70015;
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 30px rgba(0, 0, 0, 0.06);
+  --shadow-lift: 0 2px 6px rgba(0, 0, 0, 0.05), 0 24px 60px rgba(0, 0, 0, 0.1);
+}
+
+:root {
+  color-scheme: light;
+  --stage-a: #ffffff;
+  --stage-b: #f5f5f7;
+  --stage-c: #ececf0;
+  --glass: rgba(255, 255, 255, 0.72);
+  --grad-a: #1d1d1f;
+  --grad-b: #4a4a4f;
+  --metal-a: #8e8e93;
+  --metal-b: #1d1d1f;
+  --metal-c: #2c2c2e;
+  --logo-a: #3a3a3d;
+  --logo-b: #0b0b0c;
+  --logo-fg: #f5f5f7;
+  --card-ring: transparent;
+  --glow: transparent;
+}
+
+html.dark {
+  color-scheme: dark;
+  --color-paper: #000000;
+  --color-card: #141416;
+  --color-ink: #f5f5f7;
+  --color-ink-2: #d1d1d6;
+  --color-mute: #98989d;
+  --color-line: #2a2a2d;
+  --color-mist: #1a1a1c;
+  --color-silver: #3a3a3d;
+  --color-accent: #2997ff;
+  --color-accent-2: #47a6ff;
+  --color-danger: #ff453a;
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-lift: 0 2px 8px rgba(0, 0, 0, 0.6), 0 28px 70px rgba(0, 0, 0, 0.6);
+  --stage-a: #202024;
+  --stage-b: #111113;
+  --stage-c: #08080a;
+  --glass: rgba(18, 18, 20, 0.72);
+  --grad-a: #ffffff;
+  --grad-b: #a1a1a6;
+  --metal-a: #6e6e73;
+  --metal-b: #f5f5f7;
+  --metal-c: #c7c7cc;
+  --logo-a: #f5f5f7;
+  --logo-b: #b8b8bd;
+  --logo-fg: #0b0b0c;
+  --card-ring: rgba(255, 255, 255, 0.06);
+  --glow: rgba(140, 160, 255, 0.07);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+  body {
+    font-family: var(--font-sans);
+    letter-spacing: -0.011em;
+    overflow-x: hidden;
+    background: var(--color-paper);
+  }
+  ::selection {
+    background: rgba(0, 113, 227, 0.22);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+  button {
+    cursor: pointer;
+  }
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+  select option {
+    background: var(--color-card);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2rem;
+    }
+  }
+
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+
+  .display {
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+
+  .text-gradient {
+    background: linear-gradient(180deg, var(--grad-a) 0%, var(--grad-b) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-metal {
+    background: linear-gradient(100deg, var(--metal-a) 0%, var(--metal-b) 35%, var(--metal-a) 55%, var(--metal-c) 80%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: metal-shine 9s linear infinite;
+  }
+
+  .glass {
+    background: var(--glass);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  .card {
+    background: var(--color-card);
+    border-radius: 28px;
+    box-shadow:
+      0 0 0 1px var(--card-ring),
+      var(--shadow-soft);
+    transition:
+      box-shadow 0.5s var(--ease-premium),
+      transform 0.5s var(--ease-premium),
+      background-color 0.5s;
+  }
+  .card:hover {
+    box-shadow:
+      0 0 0 1px var(--card-ring),
+      var(--shadow-lift);
+    transform: translateY(-4px);
+  }
+
+  .stage {
+    background:
+      radial-gradient(60% 50% at 50% 35%, var(--glow), transparent 70%),
+      radial-gradient(120% 80% at 50% 0%, var(--stage-a) 0%, var(--stage-b) 55%, var(--stage-c) 100%);
+  }
+
+  /* Тёмная премиальная плашка CTA — одинаково тёмная в обеих темах */
+  .cta-band {
+    background:
+      radial-gradient(60% 80% at 50% 0%, rgba(255, 255, 255, 0.14), transparent),
+      #111113;
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--color-silver);
+    background: var(--color-card);
+    padding: 0.85rem 1rem;
+    font-size: 0.97rem;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+  .field::placeholder {
+    color: var(--color-mute);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 18%, transparent);
+  }
+  .field[aria-invalid='true'] {
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-danger) 12%, transparent);
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s var(--ease-premium);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  /* Подсказка «нажмите на модель» */
+  .tap-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 9999px;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-ink-2);
+    background: color-mix(in srgb, var(--color-card) 80%, transparent);
+    box-shadow: 0 0 0 1px var(--color-line);
+    backdrop-filter: blur(12px);
+    transition:
+      background-color 0.3s,
+      color 0.3s,
+      transform 0.3s var(--ease-premium);
+  }
+  .tap-hint:hover {
+    color: var(--color-ink);
+    transform: translateY(-1px);
+  }
+}
+
+/* Плавный переход темы (fallback, если нет View Transitions API) */
+html.theme-anim,
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.5s var(--ease-premium),
+    color 0.5s var(--ease-premium),
+    border-color 0.5s var(--ease-premium),
+    box-shadow 0.5s var(--ease-premium),
+    fill 0.5s,
+    stroke 0.5s !important;
+}
+
+/* View Transitions: мягкое растворение одной темы в другую */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes metal-shine {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-mist) 0px, var(--color-card) 160px, var(--color-mist) 320px);
+  background-size: 800px 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* Двойной ползунок цены */
+.range-thumb::-webkit-slider-thumb {
+  pointer-events: auto;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 22px;
+  width: 22px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  cursor: grab;
+  transition: transform 0.2s;
+}
+.range-thumb::-webkit-slider-thumb:active {
+  transform: scale(1.15);
+  cursor: grabbing;
+}
+.range-thumb::-moz-range-thumb {
+  pointer-events: auto;
+  height: 22px;
+  width: 22px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  cursor: grab;
+}
+.range-thumb::-webkit-slider-runnable-track {
+  background: transparent;
+}
+.range-thumb::-moz-range-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-metal {
+    animation: none;
+  }
+  .card:hover {
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
